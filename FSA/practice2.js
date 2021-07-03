@@ -55,6 +55,6 @@ function foundB3(c) {
   if(c === 'x')
     return end
   else
-    return foundB3 
+    return foundB2
 }
 console.log(match('ababababx'))
