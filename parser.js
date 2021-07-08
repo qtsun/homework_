@@ -1,3 +1,4 @@
+const css = require('css')
 let currentToken = null
 let currentAttribute = null
 
@@ -6,6 +7,18 @@ let stack = [{type:"document", children:[]}]
 let currentTextNode = null
 
 const EOF = Symbol("EOF") //EOF: End Of File
+
+//加入一个新函数addCSSRules,这里我们把CSS规则暂存到一个数组里
+let rules = []
+function addCSSRules(text) {
+    var ast = css.parse(text)
+    console.log(JSON.stringify(ast, null, "   "))
+    rules.push(...ast.stylesheet.rules)
+}
+
+function computeCSS(element) {
+    var elements = stack.slice().reverse()
+}
 
 function emit(token) {
    
@@ -27,6 +40,8 @@ function emit(token) {
                 })
         }
 
+        computeCSS(element)
+
         top.children.push(element)
         element.parent = top
 
@@ -39,6 +54,10 @@ function emit(token) {
         if(top.tagName != token.tagName) {
             throw new Error("Tag start end doesn't match!")
         } else {
+            //+++++++++++++++++遇到css规则标签时,执行添加CSS规则的操作++++++++++//
+            if(top.tagName === 'style') {
+                addCSSRules(top.children[0].content)
+            }
             stack.pop()
         }
         currentTextNode = null
