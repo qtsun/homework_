@@ -1,0 +1,25 @@
+{
+  "name": "homework_",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "dependencies": {
+    "css": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qtsun/homework_.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qtsun/homework_/issues"
+  },
+  "homepage": "https://github.com/qtsun/homework_#readme"
+}
