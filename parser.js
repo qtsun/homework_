@@ -8,6 +8,7 @@ let currentTextNode = null
 
 const EOF = Symbol("EOF") //EOF: End Of File
 
+const layout = require('./layout.js')
 //加入一个新函数addCSSRules,这里我们把CSS规则暂存到一个数组里
 let rules = []
 function addCSSRules(text) {
@@ -93,7 +94,7 @@ function computeCSS(element) {
                 if(!computedStyle[declaration.property])
                     computedStyle[declaration.property] = {}
                 // computedStyle[declaration.property].value = declaration.value
-                if(!computeCSS[declaration.property].specificity) {
+                if(!computedStyle[declaration.property].specificity) {
                     computedStyle[declaration.property].value = declaration.value
                     computedStyle[declaration.property].specificity = sp
                 } else if (compare(computedStyle[declaration.property].specificity, sp) < 0) {
@@ -147,6 +148,7 @@ function emit(token) {
             }
             stack.pop()
         }
+        layout(top)
         currentTextNode = null
     } else if(token.type == "text") {
         if(currentTextNode == null) {

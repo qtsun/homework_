@@ -34,7 +34,8 @@ function layout(element) {
 
     var style = elementStyle
 
-    ['width', 'height'].forEach(size => {
+    let k = ['width', 'height']
+    k.forEach(size => {
         if (style[size] === 'auto' || style[size] === '') {
             style[size] = null
         }
@@ -46,7 +47,7 @@ function layout(element) {
         style.alignItems = 'stretch'
     if (!style.justifyContent || style.justifyContent === 'auto')
         style.justifyContent = 'flex-start'
-    if (!flex.flexWrap || style.flexWrap === 'auto')
+    if (!style.flexWrap || style.flexWrap === 'auto')
         style.flexWrap = 'nowrap'
     if (!style.alignContent || style.alignContent === 'auto')
         style.alignContent = 'stretch'
@@ -139,17 +140,18 @@ function layout(element) {
                 flexLine.mainSpace = mainSpace
                 flexLine.crossSpace = crossSpace
 
-                flexLine = []
-                flexLines.push(flexLines)
+                flexLine = [item]
+                // flexLine.push(item)
 
-                flexLine.push(item)
+                flexLines.push(flexLine)
+
 
                 mainSpace = style[mainSize]
                 crossSpace = 0
             } else {
                 flexLines.push(item)
             }
-            if (itemStyle[crossSize] !== null && itemStyle[crossSize] != (void 0))
+            if (itemStyle[crossSize] !== null && itemStyle[crossSize] !== (void 0))
                 crossSpace = Math.max(crossSpace, itemStyle[crossSize])
             mainSpace -= itemStyle[mainSize]
         }
@@ -229,11 +231,11 @@ function layout(element) {
                 }
                 if (style.justifyContent === 'space-around') {
                     var step = mainSpace / items.length * mainSign
-                    var currentMain = step /2 + mainBase
+                    var currentMain = step / 2 + mainBase
                 }
                 for(var i = 0; i < items.length; i++) {
                     var item = items[i]
-                    itemStyle[mainStart] = currentMain
+                    itemStyle[mainStart, currentMain]
                     itemStyle[mainEnd] = itemStyle[mainStart] + mainSign * itemStyle[mainSize]
                     currentMain = itemStyle[mainEnd] + step
                 }
@@ -254,7 +256,7 @@ function layout(element) {
     } else {
         crossSpace = style[crossSize]
         for (var i = 0; i < flexLines.length; i++) {
-            crossSpace -= flexLines[i].crossBase
+            crossSpace -= flexLines[i].crossSpace
         }
     }
 
@@ -301,7 +303,7 @@ function layout(element) {
 
             var align = itemStyle.alignSelf || style.alignItems
 
-            if(itemStyle[crossSize] === null)
+            if(item === null)
                 itemStyle[crossSize] = (align === 'stretch') ? 
                     lineCrossSize : 0
 
